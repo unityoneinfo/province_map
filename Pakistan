@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakistan Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Customize map styles */
+        #map {
+            width: 100%;
+            height: 500px;
+            background: transparent; /* Make the map background transparent */
+            color: white; /* Set text color to white */
+        }
+
+        /* Customize popup styles */
+        .leaflet-popup-content-wrapper {
+            background: rgba(0, 0, 0, 0.8); /* Transparent black background for popups */
+            color: white; /* Text color inside popups */
+        }
+
+        .leaflet-div-icon {
+            background: white; /* White star icon background */
+            color: black; /* Black star icon color */
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map').setView([30.3753, 69.3451], 6);
+
+        // Add a black border to the map
+        L.geoJson(pakistanBorder, {
+            style: function (feature) {
+                return {
+                    color: "black",  // Border color
+                    weight: 2,       // Border thickness
+                };
+            },
+        }).addTo(map);
+
+        // Define marker icons (white star-shaped)
+        var starIcon = L.divIcon({
+            className: 'leaflet-div-icon',
+            html: '<i class="fa fa-star"></i>',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32],
+        });
+
+        // Define marker locations and popups
+        var markers = [
+            {
+                name: "Punjab (Lahore)",
+                latitude: 31.5497,
+                longitude: 74.3436,
+                province: "Punjab",
+                info: "Death toll: 188<br>Fully damaged houses: 16,590<br>Injured: 2,023<br>Economic loss: Agricultural"
+            },
+            {
+                name: "Baluchistan (Quetta)",
+                latitude: 30.1798,
+                longitude: 66.9750,
+                province: "Baluchistan",
+                info: "Death toll: 253<br>Fully damaged houses: 17,608<br>Injured: 164<br>Economic loss: Agricultural"
+            },
+            {
+                name: "Sindh (Karachi)",
+                latitude: 24.8607,
+                longitude: 67.0011,
+                province: "Sindh",
+                info: "Death toll: 422<br>Fully damaged houses: 307,306<br>Injured: 1,101<br>Economic loss: Agricultural"
+            },
+            {
+                name: "KPK (Khyber Pakhtunkhwa)",
+                latitude: 33.6844,
+                longitude: 72.9904,
+                province: "KPK (Khyber Pakhtunkhwa)",
+                info: "Death toll: 264<br>Fully damaged houses: 30,233<br>Injured: 327<br>Economic loss: Agricultural"
+            }
+        ];
+
+        // Add markers to the map
+        markers.forEach(function (marker) {
+            var popupContent = "<b>" + marker.name + "</b><br>" + marker.info;
+            L.marker([marker.latitude, marker.longitude], { icon: starIcon }).addTo(map).bindPopup(popupContent);
+        });
+
+        // Replace 'pakistanBorder' with your GeoJSON data for Pakistan's border
+    </script>
+</body>
+</html>
